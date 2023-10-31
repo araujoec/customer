@@ -1,0 +1,16 @@
+version: "3.8"
+
+networks:
+  network1:
+    name: cdb
+
+services:
+  db:
+    image: postgres
+    container_name: customerDb
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=customerDB
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
