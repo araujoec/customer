@@ -1,5 +1,7 @@
 package br.com.invillia.cdb.customer.persistence.entities;
 
+import br.com.invillia.cdb.customer.domain.Customer;
+import br.com.invillia.cdb.customer.domain.Wallet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,9 +32,21 @@ public class WalletEntity {
     private Long paper;
 
 
-    public WalletEntity(Long balance) {
+    public WalletEntity(CustomerEntity customer, long balance, long paper) {
+        this.customer = customer;
         this.balance = balance;
-        this.paper = 0L;
+        this.paper = paper;
     }
 
+    public Wallet toDomain() {
+        return new Wallet(balance, paper);
+    }
+
+    public static WalletEntity fromDomain(Wallet wallet, Customer customer) {
+        return new WalletEntity(
+                CustomerEntity.fromDomain(customer),
+                wallet.getBalance(),
+                wallet.getPaper()
+        );
+    }
 }

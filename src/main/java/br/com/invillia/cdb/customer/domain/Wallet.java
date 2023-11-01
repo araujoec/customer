@@ -12,10 +12,30 @@ public class Wallet {
 
     public Wallet(Long balance) {
         this.balance = balance;
+        this.paper = 0L;
     }
 
     public Wallet(Long balance, Long paper) {
         this.balance = balance;
         this.paper = paper;
     }
+
+    public void buyCDB(long amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            paper += amount;
+        }
+    }
+
+    public void sellCDB(long amount) {
+        if (paper >= amount) {
+            balance += amount;
+            paper -= amount;
+        }
+    }
+
+    public void increaseBalance(long amount) {
+        this.balance += amount;
+    }
+
 }

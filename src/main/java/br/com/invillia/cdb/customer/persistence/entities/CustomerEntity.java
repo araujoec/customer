@@ -1,5 +1,7 @@
 package br.com.invillia.cdb.customer.persistence.entities;
 
+import br.com.invillia.cdb.customer.domain.Customer;
+import br.com.invillia.cdb.customer.domain.Wallet;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,4 +39,16 @@ public class CustomerEntity {
         this.wallet = wallet;
     }
 
+    public static CustomerEntity fromDomain(Customer customer) {
+        return new CustomerEntity(
+                customer.getName(),
+                customer.getDocument(),
+                customer.getEmail(),
+                null
+        );
+    }
+
+    public Customer toDomain() {
+        return new Customer(name, document, email, new Wallet(wallet.getBalance(), wallet.getPaper()));
+    }
 }
