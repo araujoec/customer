@@ -12,11 +12,13 @@ public class Customer {
     private String name;
     private String document;
     private String email;
+    private Wallet wallet;
 
-    public Customer(String name, String document, String email) {
+    public Customer(String name, String document, String email, Wallet wallet) {
         this.name = name;
         this.document = document;
         this.email = email;
+        this.wallet = wallet;
     }
 
     @Override

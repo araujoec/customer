@@ -7,12 +7,15 @@ import lombok.Setter;
 @Setter
 public class Wallet {
 
-    private Customer customer;
     private Long balance;
     private Long paper;
 
-    public Wallet(Customer customer, Long balance) {
-        this.customer = customer;
+    public Wallet(Long balance) {
         this.balance = balance;
+    }
+
+    public Wallet(Long balance, Long paper) {
+        this.balance = balance;
+        this.paper = paper;
     }
 }
