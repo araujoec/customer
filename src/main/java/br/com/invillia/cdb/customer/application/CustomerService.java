@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService {
 
-    //    @Autowired
     private final CustomerRepository customerRepository;
-
-    //    @Autowired
     private final WalletRepository walletRepository;
     private Logger logger = LoggerFactory.getLogger(LoggerFactory.class);
 
