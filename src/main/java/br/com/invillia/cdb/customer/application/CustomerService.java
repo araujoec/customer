@@ -7,18 +7,17 @@ import br.com.invillia.cdb.customer.persistence.entities.CustomerEntity;
 import br.com.invillia.cdb.customer.persistence.entities.WalletEntity;
 import br.com.invillia.cdb.customer.persistence.repositories.CustomerRepository;
 import br.com.invillia.cdb.customer.persistence.repositories.WalletRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.UUID;
 
+@Slf4j
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final WalletRepository walletRepository;
-    private Logger logger = LoggerFactory.getLogger(LoggerFactory.class);
 
     public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository) {
         this.customerRepository = customerRepository;
@@ -26,8 +25,10 @@ public class CustomerService {
     }
 
     public Customer createCustomer(String name, String document, String email, Long balance) {
+        String uniqueID = UUID.randomUUID().toString();
+        log.info("ID da operação: {}", uniqueID);
         if (customerRepository.findByDocument(document) != null) {
-            logger.warn(String.format("Cliente já existente para documento %s.", document));
+            log.warn(String.format("Cliente já existente para documento %s.", document));
             throw new CustomerException(String.format("Cliente já existente para documento %s.", document));
         }
 
@@ -42,9 +43,9 @@ public class CustomerService {
     public Customer getCustomer(String document) {
         CustomerEntity customer = customerRepository.findByDocument(document);
 
-        if(customer == null){
+        if (customer == null) {
             throw new CustomerException("customer not found");
-        }else {
+        } else {
             return customer.toDomain();
         }
     }

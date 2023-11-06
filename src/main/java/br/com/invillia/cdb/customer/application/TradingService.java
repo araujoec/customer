@@ -1,5 +1,7 @@
 package br.com.invillia.cdb.customer.application;
 
+import br.com.invillia.cdb.customer.application.producer.ProducerService;
+import br.com.invillia.cdb.customer.domain.Paper;
 import br.com.invillia.cdb.customer.exception.TradingException;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,11 +19,17 @@ public class TradingService {
     @Autowired
     private CustomerService customerService;
 
-    public void buyCDB(String document, long amount) {
+    @Autowired
+    private ProducerService producerService;
+
+    public void buyCDB(String document, Long amount) {
         if (amount <= 0) {
             throw new TradingException("Valor inválido de CDB!");
         }
         walletService.buyCDB(customerService.getCustomer(document), amount);
+        Paper paper = new Paper(document, amount);
+
+        producerService.sendMessage(paper);
     }
 
     public void sellCDB(String document, long amount) {

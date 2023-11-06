@@ -33,4 +33,11 @@ public class Customer {
     public int hashCode() {
         return Objects.hash(name, document, email);
     }
+
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", document='" + document + '\'' +
+                ", email='" + email + '\'';
+    }
 }
