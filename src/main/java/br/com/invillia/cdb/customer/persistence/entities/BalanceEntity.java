@@ -1,7 +1,7 @@
 package br.com.invillia.cdb.customer.persistence.entities;
 
+import br.com.invillia.cdb.customer.domain.Balance;
 import br.com.invillia.cdb.customer.domain.Customer;
-import br.com.invillia.cdb.customer.domain.Wallet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "wallet")
+@Table(name = "balance")
 @Getter
 @Setter
 @NoArgsConstructor
-public class WalletEntity {
+public class BalanceEntity {
 
     @Id
     @Column(name = "customer_id")
-    private Long id;
+    private String id;
 
     @JsonIgnore
     @OneToOne
@@ -26,27 +26,21 @@ public class WalletEntity {
     CustomerEntity customer;
 
     @Column(name = "balance")
-    private Long balance;
+    private Double balance;
 
-    @Column(name = "paper")
-    private Long paper;
-
-
-    public WalletEntity(CustomerEntity customer, long balance, long paper) {
+    public BalanceEntity(CustomerEntity customer, Double balance) {
         this.customer = customer;
         this.balance = balance;
-        this.paper = paper;
     }
 
-    public Wallet toDomain() {
-        return new Wallet(balance, paper);
+    public Balance toDomain() {
+        return new Balance(customer.getId(), balance);
     }
 
-    public static WalletEntity fromDomain(Wallet wallet, Customer customer) {
-        return new WalletEntity(
+    public static BalanceEntity fromDomain(Balance balance, Customer customer) {
+        return new BalanceEntity(
                 CustomerEntity.fromDomain(customer),
-                wallet.getBalance(),
-                wallet.getPaper()
+                balance.getBalance()
         );
     }
 }

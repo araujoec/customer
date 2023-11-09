@@ -1,7 +1,6 @@
 package br.com.invillia.cdb.customer.persistence.entities;
 
 import br.com.invillia.cdb.customer.domain.Customer;
-import br.com.invillia.cdb.customer.domain.Wallet;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +14,9 @@ import lombok.Setter;
 public class CustomerEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id = 0L;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
+    private String id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -30,13 +29,13 @@ public class CustomerEntity {
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private WalletEntity wallet;
+    private BalanceEntity balance;
 
-    public CustomerEntity(String name, String document, String email, WalletEntity wallet) {
+    public CustomerEntity(String name, String document, String email, BalanceEntity balance) {
         this.name = name;
         this.document = document;
         this.email = email;
-        this.wallet = wallet;
+        this.balance = balance;
     }
 
     public static CustomerEntity fromDomain(Customer customer) {
@@ -49,6 +48,9 @@ public class CustomerEntity {
     }
 
     public Customer toDomain() {
-        return new Customer(name, document, email, new Wallet(wallet.getBalance(), wallet.getPaper()));
+        if (balance != null) {
+            return new Customer(name, document, email, balance.toDomain());
+        }
+        return new Customer(name, document, email, null);
     }
 }

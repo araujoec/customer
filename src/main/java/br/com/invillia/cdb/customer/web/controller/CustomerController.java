@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Slf4j
 @Controller
 @RequestMapping(value = "customer")
 @Tag(name = "Customer", description = "the customer API")
@@ -38,25 +37,27 @@ public class CustomerController {
             String document,
             @RequestParam("email")
             String email,
-            @RequestParam("balance")
-            Long balance
+            @RequestParam(name = "balance", required = false, defaultValue = "0")
+            @Min(0)
+            Double balance
     ) {
         Customer newCustomer = customerService.createCustomer(name, document, email, balance);
-        log.info("Cliente cadastrado com sucesso. {}", newCustomer.toString());
         return ResponseEntity.ok(newCustomer);
     }
 
     @Operation(summary = "Get a customer by document")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "customer created with success"),
+            @ApiResponse(responseCode = "200", description = "customer found with success"),
             @ApiResponse(responseCode = "404", description = "customer not found in database")
     })
     @GetMapping(value = "/get")
     public ResponseEntity<Customer> getCustomer(
             @RequestParam("document")
-            String document
+            String document,
+            @RequestParam(value = "operationId", required = false)
+            String operationId
     ) {
-        Customer customer = customerService.getCustomer(document);
+        Customer customer = customerService.getCustomer(document, operationId);
 
         return ResponseEntity.ok(customer);
     }

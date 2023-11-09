@@ -12,13 +12,13 @@ public class Customer {
     private String name;
     private String document;
     private String email;
-    private Wallet wallet;
+    private Balance balance;
 
-    public Customer(String name, String document, String email, Wallet wallet) {
+    public Customer(String name, String document, String email, Balance balance) {
         this.name = name;
         this.document = document;
         this.email = email;
-        this.wallet = wallet;
+        this.balance = balance;
     }
 
     @Override
@@ -36,8 +36,11 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "name='" + name + '\'' +
+        return "{" +
+                "name='" + name + '\'' +
                 ", document='" + document + '\'' +
-                ", email='" + email + '\'';
+                ", email='" + email + '\'' +
+                ", balance=" + balance.getBalance() +
+                '}';
     }
 }
