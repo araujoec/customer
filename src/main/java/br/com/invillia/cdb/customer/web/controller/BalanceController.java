@@ -9,9 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "balance")
@@ -27,11 +25,11 @@ public class BalanceController {
     })
     @PostMapping(value = "/update")
     public ResponseEntity<Balance> updateBalance(
-            @RequestParam("balance")
+            @RequestBody
             Balance balance,
-            @RequestParam(value = "operationId", required = false)
-            String operationId
+            @RequestHeader(value = "transactionId", required = false)
+            String transactionId
     ) {
-        return ResponseEntity.ok(balanceService.updateBalance(balance, operationId));
+        return ResponseEntity.ok(balanceService.updateBalance(balance, transactionId));
     }
 }

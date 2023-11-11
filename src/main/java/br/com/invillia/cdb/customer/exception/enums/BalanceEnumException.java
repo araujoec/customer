@@ -2,7 +2,7 @@ package br.com.invillia.cdb.customer.exception.enums;
 
 public enum BalanceEnumException {
 
-    BALANCE_NOT_FOUND("bex-001", "Balance not found in database for customer id.");
+    BALANCE_NOT_FOUND("balance-exception-001", "Saldo não encontrado para id de cliente fornecido.");
 
     public final String label;
     public final String message;

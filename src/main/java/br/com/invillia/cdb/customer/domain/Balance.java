@@ -19,4 +19,12 @@ public class Balance {
         this.customerId = customerId;
         this.balance = 0.0;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "customerId='" + customerId + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }
