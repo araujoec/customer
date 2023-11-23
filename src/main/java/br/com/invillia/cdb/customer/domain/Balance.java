@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class Balance {
 
     private final String customerId;
@@ -15,10 +14,10 @@ public class Balance {
         this.balance = balance;
     }
 
-    public Balance(String customerId) {
-        this.customerId = customerId;
-        this.balance = 0.0;
-    }
+//    public Balance(String customerId) {
+//        this.customerId = customerId;
+//        this.balance = 0.0;
+//    }
 
     @Override
     public String toString() {

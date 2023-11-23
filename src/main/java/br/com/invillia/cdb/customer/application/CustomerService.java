@@ -25,10 +25,10 @@ public class CustomerService {
     public Customer createCustomer(String name, String document, String email, Double balance) {
         String transactionId = UUID.randomUUID().toString();
         log.debug("Creating customer: name = {}, document = {}, email = {}, balance = {}", name, document, email, balance);
-        log.info("Transaction id: {}", transactionId);
+        log.trace("Transaction id: {}", transactionId);
 
         if (balance < 0) {
-            log.warn("[{}] Balance equal or lower than zero ({})", transactionId, balance);
+            log.warn("[{}] Balance lower than zero ({})", transactionId, balance);
             throw new CustomerException(CustomerEnumException.BALANCE_LOWER_THAN_ZERO);
         }
 
@@ -41,7 +41,7 @@ public class CustomerService {
         Customer newCustomer = new Customer(name, document, email, newBalance);
 
         log.debug("[{}] Saving customer to database...", transactionId);
-        balanceService.saveBalanceForCustomer(
+        balanceService.createBalanceForCustomer(
                 customerRepository.save(CustomerEntity.fromDomain(newCustomer)),
                 balance,
                 transactionId

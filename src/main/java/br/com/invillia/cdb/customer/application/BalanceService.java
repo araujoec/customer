@@ -17,12 +17,12 @@ public class BalanceService {
     @Autowired
     private BalanceRepository balanceRepository;
 
-    public void saveBalanceForCustomer(CustomerEntity customer, Double balance, String transactionId) {
+    public BalanceEntity createBalanceForCustomer(CustomerEntity customer, Double balance, String transactionId) {
         log.debug("[{}] Saving balance to database...", transactionId);
         BalanceEntity newBalance = new BalanceEntity();
         newBalance.setBalance(balance);
         newBalance.setCustomer(customer);
-        balanceRepository.save(newBalance);
+        return balanceRepository.save(newBalance);
     }
 
     public Balance updateBalance(Balance balance, String transactionId) {
