@@ -55,7 +55,7 @@ class CustomerServiceTest {
         );
 
         // and exception message is correct
-        assertEquals(exception.getMessage(), "Code customer-exception-003: Saldo de cliente insuficiente.");
+        assertEquals(exception.getMessage(), "Code customer-exception-003: Saldo negativo para criar conta.");
     }
 
     @DisplayName("Create a customer and throw customer exists exception")
